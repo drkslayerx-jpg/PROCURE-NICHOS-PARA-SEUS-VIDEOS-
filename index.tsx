@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
-// Simple Error Boundary to catch crashes and avoid white/black screen of death
+// Error Boundary Simplificado
 class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: any}> {
   constructor(props: any) {
     super(props);
@@ -14,58 +14,36 @@ class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasErr
   }
 
   componentDidCatch(error: any, errorInfo: any) {
-    console.error("Uncaught error:", error, errorInfo);
+    console.error("React Error:", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{
-          height: '100vh',
-          backgroundColor: '#000',
-          color: '#ef4444',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: 'monospace',
-          padding: '20px',
-          textAlign: 'center'
-        }}>
-          <h1 style={{fontSize: '24px', marginBottom: '16px'}}>ERRO DE SISTEMA</h1>
-          <p style={{color: '#888', maxWidth: '600px'}}>{this.state.error?.toString()}</p>
+        <div className="flex flex-col items-center justify-center h-screen bg-black text-white p-4 text-center font-mono">
+          <h1 className="text-xl text-red-500 mb-4">CRITICAL SYSTEM FAILURE</h1>
+          <p className="text-neutral-500 text-sm max-w-md">{this.state.error?.toString()}</p>
           <button 
             onClick={() => window.location.reload()}
-            style={{
-              marginTop: '30px',
-              padding: '10px 20px',
-              background: '#333',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
+            className="mt-8 px-6 py-2 bg-neutral-800 rounded hover:bg-neutral-700 transition-colors"
           >
-            REINICIAR APLICAÇÃO
+            REBOOT SYSTEM
           </button>
         </div>
       );
     }
-
     return this.props.children;
   }
 }
 
 const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <React.StrictMode>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </React.StrictMode>
+  );
 }
-
-const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
-  </React.StrictMode>
-);

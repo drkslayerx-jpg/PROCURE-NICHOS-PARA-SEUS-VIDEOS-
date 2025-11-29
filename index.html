@@ -5,9 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ViralNiche Finder - Dark Channel Edition</title>
     
-    <!-- Polyfill CRÍTICO: Deve vir antes de tudo para evitar crash do process.env -->
+    <!-- Polyfill para evitar crash ao acessar process.env -->
     <script>
-      window.process = window.process || { env: { API_KEY: '' } };
+      window.process = { env: { API_KEY: '' } };
+    </script>
+
+    <!-- Tratamento de Erro Global (mostra na tela se falhar) -->
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        var root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = '<div style="color:#ef4444; padding:20px; font-family:monospace; background:#000; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">' +
+            '<h2 style="font-size:20px; margin-bottom:10px;">Erro de Inicialização</h2>' +
+            '<p style="color:#999;">' + msg + '</p>' +
+            '</div>';
+        }
+      };
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,12 +30,11 @@
     <style>
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #000000; /* Pure Black */
-        color: #f8fafc; /* Slate 50 */
+        background-color: #000000;
+        color: #f8fafc;
         overflow-x: hidden;
       }
       
-      /* Background Pattern - Subtle Grid on Black */
       .bg-grid-pattern {
         background-image: linear-gradient(to right, #1a1a1a 1px, transparent 1px),
                           linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
@@ -31,65 +43,41 @@
         -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
       }
 
-      /* Custom Scrollbar - Darker */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #000000; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #333333; 
-        border-radius: 4px;
-        border: 1px solid #000000;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555555; 
-      }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #000000; }
+      ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; border: 1px solid #000000; }
+      ::-webkit-scrollbar-thumb:hover { background: #555555; }
 
-      .font-mono {
-        font-family: 'JetBrains Mono', monospace;
-      }
-      
-      .animate-fadeIn {
-        animation: fadeIn 0.5s ease-out forwards;
-      }
+      .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+      .animate-slideUp { animation: slideUp 0.6s ease-out forwards; }
 
-      .animate-slideUp {
-        animation: slideUp 0.6s ease-out forwards;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
-      @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
-  <script type="importmap">
+
+    <!-- Import Map Estável (React 18) -->
+    <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@0.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
 </script>
 </head>
   <body>
     <div id="root">
-      <!-- Fallback de carregamento (aparece se o React demorar ou falhar) -->
       <div style="height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #000000; color: #333;">
         <div style="width: 40px; height: 40px; border: 2px solid #333; border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
-        <p style="font-family: monospace; color: #666;">INICIANDO SISTEMA...</p>
+        <p style="font-family: monospace; color: #666; font-size: 12px; letter-spacing: 2px;">INICIANDO SISTEMA...</p>
       </div>
       <style>
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       </style>
     </div>
+    <!-- Script principal injetado automaticamente pelo ambiente -->
   </body>
 </html>
