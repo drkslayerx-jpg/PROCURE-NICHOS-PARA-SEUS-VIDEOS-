@@ -1,11 +1,21 @@
 import { GoogleGenAI } from "@google/genai";
 import { NicheResult, VideoIdea, Region, Category } from "../types";
 
-// Inicialização segura do cliente para evitar crash ao carregar o módulo no navegador
+// Inicialização 100% segura do cliente
 const getAiClient = () => {
-  const apiKey = (typeof process !== 'undefined' && process.env && process.env.API_KEY) 
-    ? process.env.API_KEY 
-    : ''; 
+  let apiKey = '';
+  
+  // Verifica de forma segura todas as possibilidades de ambiente
+  try {
+    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+      apiKey = process.env.API_KEY;
+    } else if (typeof window !== 'undefined' && (window as any).process && (window as any).process.env) {
+      apiKey = (window as any).process.env.API_KEY;
+    }
+  } catch (e) {
+    console.warn("Falha ao ler variáveis de ambiente, tentando fallback");
+  }
+
   return new GoogleGenAI({ apiKey });
 };
 
