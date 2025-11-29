@@ -3,10 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ViralNiche Finder</title>
+    <title>ViralNiche Finder - Dark Channel Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+      // Previne crash "process is not defined" em navegadores
+      window.process = window.process || { env: { API_KEY: '' } };
+    </script>
     <style>
       body {
         font-family: 'Inter', sans-serif;
@@ -20,16 +24,16 @@
         background-image: linear-gradient(to right, #171717 1px, transparent 1px),
                           linear-gradient(to bottom, #171717 1px, transparent 1px);
         background-size: 50px 50px;
-        mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-        -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+        -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
       }
 
       /* Custom Scrollbar - Darker */
       ::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #000000; 
+        background: #0a0a0a; 
       }
       ::-webkit-scrollbar-thumb {
         background: #262626; 
@@ -70,6 +74,14 @@
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
       }
+
+      /* Utilitários Glassmorphism */
+      .glass-card {
+        background: rgba(10, 10, 10, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
     </style>
   <script type="importmap">
 {
@@ -78,7 +90,7 @@
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+    "lucide-react": "https://aistudiocdn.com/lucide-react@0.344.0"
   }
 }
 </script>

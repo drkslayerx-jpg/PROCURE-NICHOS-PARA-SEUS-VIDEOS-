@@ -1,7 +1,13 @@
 import { GoogleGenAI } from "@google/genai";
 import { NicheResult, VideoIdea, Region, Category } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Inicialização segura do cliente para evitar crash ao carregar o módulo no navegador
+const getAiClient = () => {
+  const apiKey = (typeof process !== 'undefined' && process.env && process.env.API_KEY) 
+    ? process.env.API_KEY 
+    : ''; 
+  return new GoogleGenAI({ apiKey });
+};
 
 // Helper to extract JSON from markdown code blocks if necessary
 const extractJson = (text: string): any => {
@@ -36,6 +42,7 @@ export const searchViralNiches = async (
   region: Region,
   customQuery?: string
 ): Promise<NicheResult[]> => {
+  const ai = getAiClient();
   const query = customQuery || category;
   
   const prompt = `
@@ -101,6 +108,7 @@ export const searchViralNiches = async (
 };
 
 export const generateVideoStrategy = async (nicheName: string, region: Region): Promise<VideoIdea[]> => {
+  const ai = getAiClient();
   const prompt = `
     Para um Canal Dark (Faceless) no nicho "${nicheName}" focado na região ${region}, crie 3 roteiros de vídeos virais focados em Storytelling.
     
